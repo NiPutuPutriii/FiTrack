@@ -1,18 +1,23 @@
 import 'package:fitnesstracker/common/color_extension.dart';
 import 'package:fitnesstracker/common_widget/round_button.dart';
 import 'package:fitnesstracker/common_widget/textfield.dart';
-import 'package:fitnesstracker/view/login/complete_profile_view.dart';
 import 'package:flutter/material.dart';
+import 'package:dio/dio.dart';
+import 'package:get_storage/get_storage.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
 
   @override
   State<LoginView> createState() => _LoginViewState();
+  
 }
 
 class _LoginViewState extends State<LoginView> {
   bool isCheck = false;
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     var media = MediaQuery.of(context).size;
@@ -43,16 +48,18 @@ class _LoginViewState extends State<LoginView> {
                 SizedBox(
                   height: media.width * 0.04,
                 ),
-                const RoundTextField(
-                  hitText: "Email",
+                RoundTextField(
+                  hintText: "Email",
                   icon: "assets/img/email.png",
                   keyboardType: TextInputType.emailAddress,
+                  controller: emailController,
                 ),
                 SizedBox(
                   height: media.width * 0.04,
                 ),
                 RoundTextField(
-                  hitText: "Password",
+                  hintText: "Password",
+                  controller: passwordController,
                   icon: "assets/img/lock.png",
                   obscureText: true,
                   rigtIcon: TextButton(
@@ -88,11 +95,7 @@ class _LoginViewState extends State<LoginView> {
                 RoundButton(
                     title: "Login",
                     onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  const CompleteProfileView()));
+                      login(emailController, passwordController, context);
                     }),
                 SizedBox(
                   height: media.width * 0.04,
@@ -186,13 +189,21 @@ class _LoginViewState extends State<LoginView> {
                           fontSize: 14,
                         ),
                       ),
-                      Text(
-                        "Register",
-                        style: TextStyle(
-                            color: TColor.black,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w700),
-                      )
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pushReplacementNamed(
+                            context,
+                            '/register'
+                          );
+                        },
+                        child: Text(
+                          "Register",
+                          style: TextStyle(
+                          color: TColor.black,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w700),
+                        )
+                      ),
                     ],
                   ),
                 ),
@@ -205,5 +216,31 @@ class _LoginViewState extends State<LoginView> {
         ),
       ),
     );
+  }
+}
+void login(emailController, passwordController, context) async {
+  final dio = Dio();
+  final apiUrl = 'https://mobileapis.manpits.xyz/api';
+  final storage = GetStorage();
+  try{
+    final response = await dio.post(
+      "$apiUrl/login", 
+      data: {
+        "email": emailController.text,
+        "password": passwordController.text
+      }
+    );
+
+    print (response.data);
+    storage.write('token', response.data['data']['token']);
+
+    if (response.data['success'] == true) {
+      Navigator.pushNamed(
+        context,
+        '/profile'
+      );
+    }
+  } on DioException catch (e) {
+    print(" Error ${e.response?.statusCode} - ${e.response?.data} ");
   }
 }

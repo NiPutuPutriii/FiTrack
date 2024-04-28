@@ -79,7 +79,7 @@ class _HomeViewState extends State<HomeView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Workout Programs'),
+        title: const Text('Workout Programs'),
       ),
       body: ListView.builder(
         itemCount: lastWorkoutArr.length,

@@ -1,10 +1,20 @@
 import 'package:fitnesstracker/common/color_extension.dart';
+import 'package:fitnesstracker/view/login/complete_profile_view.dart';
+import 'package:fitnesstracker/view/login/login_view.dart';
+import 'package:fitnesstracker/view/login/signup_view.dart';
+import 'package:fitnesstracker/view/login/welcome_view.dart';
 import 'package:fitnesstracker/view/started_app/started_view.dart';
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
 
-void main() {
+Future<void> main() async {
+  await GetStorage.init();
   runApp(const MyApp());
 }
+
+// void main() {
+//   runApp(const MyApp());
+// }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -34,7 +44,15 @@ class MyApp extends StatelessWidget {
         primaryColor: TColor.primaryColor1,
         fontFamily: "Poppins",
       ),
-      home: const StartedView(),
+       routes: {
+        '/': (context) => StartedView(),
+        '/login': (context) => LoginView(),
+        '/register': (context) => SignUpView(),
+        '/dashboard': (context) => WelcomeView(),
+        '/profile': (context) => CompleteProfileView(),
+      },
+      initialRoute: '/',
+      // home: const StartedView(),
     );
   }
 }

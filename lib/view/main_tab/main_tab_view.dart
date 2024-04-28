@@ -1,6 +1,7 @@
 import 'package:fitnesstracker/common/color_extension.dart';
 import 'package:fitnesstracker/common_widget/tab_button.dart';
 import 'package:fitnesstracker/view/home/blank_view.dart';
+import 'package:fitnesstracker/view/home/profile_view.dart';
 import 'package:flutter/material.dart';
 
 import '../home/home_view.dart';
@@ -94,7 +95,7 @@ class _MainTabViewState extends State<MainTabView> {
                 isActive: selectTab == 3,
                 onTap: () {
                   selectTab = 3;
-                   currentTab = const BlankView();
+                   currentTab = const ProfileScreen();
                   if (mounted) {
                     setState(() {});
                   }

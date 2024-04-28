@@ -1,8 +1,11 @@
+import 'package:dio/dio.dart';
+// import 'package:flutter/widgets.dart';
+// import 'dart:async';
 import 'package:fitnesstracker/common/color_extension.dart';
 import 'package:fitnesstracker/common_widget/round_button.dart';
 import 'package:fitnesstracker/common_widget/textfield.dart';
-import 'package:fitnesstracker/view/login/complete_profile_view.dart';
-import 'package:fitnesstracker/view/login/login_view.dart';
+// import 'package:fitnesstracker/view/login/complete_profile_view.dart';
+// import 'package:fitnesstracker/view/login/login_view.dart';
 import 'package:flutter/material.dart';
 
 class SignUpView extends StatefulWidget {
@@ -14,6 +17,9 @@ class SignUpView extends StatefulWidget {
 
 class _SignUpViewState extends State<SignUpView> {
   bool isCheck = false;
+  final TextEditingController usernameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
   
   @override
   Widget build(BuildContext context) {
@@ -41,31 +47,27 @@ class _SignUpViewState extends State<SignUpView> {
                 SizedBox(
                   height: media.width * 0.07,
                 ),
-                const RoundTextField(
-                  hitText: "First Name",
+                RoundTextField(
+                  hintText: "Full Name",
                   icon: "assets/img/user_text.png",
+                  controller: usernameController,
                 ),
                 SizedBox(
                   height: media.width * 0.04,
                 ),
-                const RoundTextField(
-                  hitText: "Last Name",
-                  icon: "assets/img/user_text.png",
-                ),
-                SizedBox(
-                  height: media.width * 0.04,
-                ),
-                const RoundTextField(
-                  hitText: "Email",
+                RoundTextField(
+                  hintText: "Email",
                   icon: "assets/img/email.png",
                   keyboardType: TextInputType.emailAddress,
+                  controller: emailController,
                 ),
                 SizedBox(
                   height: media.width * 0.04,
                 ),
                 RoundTextField(
-                  hitText: "Password",
+                  hintText: "Password",
                   icon: "assets/img/lock.png",
+                  controller:passwordController,
                   obscureText: true,
                   rigtIcon: TextButton(
                       onPressed: () {},
@@ -83,24 +85,6 @@ class _SignUpViewState extends State<SignUpView> {
                 ),
                 SizedBox(
                   height: media.width * 0.04,
-                ),
-                RoundTextField(
-                  hitText: "Re-type Password",
-                  icon: "assets/img/lock.png",
-                  obscureText: true,
-                  rigtIcon: TextButton(
-                      onPressed: () {},
-                      child: Container(
-                          alignment: Alignment.center,
-                          width: 20,
-                          height: 20,
-                          child: Image.asset(
-                            "assets/img/show_password.png",
-                            width: 20,
-                            height: 20,
-                            fit: BoxFit.contain,
-                            color: TColor.gray,
-                          ))),
                 ),
                 Row(
                   // crossAxisAlignment: CrossAxisAlignment.,
@@ -125,7 +109,6 @@ class _SignUpViewState extends State<SignUpView> {
                           "By continuing you accept our Privacy Policy\nand Term of Use",
                           style: TextStyle(color: TColor.gray, fontSize: 10),
                         ),
-                     
                     )
                   ],
                 ),
@@ -133,7 +116,7 @@ class _SignUpViewState extends State<SignUpView> {
                   height: media.width * 0.2,
                 ),
                 RoundButton(title: "Register", onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => const CompleteProfileView()  ));
+                  register(usernameController, emailController, passwordController, context);
                 }),
                 SizedBox(
                   height: media.width * 0.04,
@@ -215,14 +198,7 @@ class _SignUpViewState extends State<SignUpView> {
                 SizedBox(
                   height: media.width * 0.04,
                 ),
-                TextButton(
-                  onPressed: () {
-                     Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const LoginView()));
-                  },
-                  child: Row(
+                  Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
@@ -232,16 +208,24 @@ class _SignUpViewState extends State<SignUpView> {
                           fontSize: 14,
                         ),
                       ),
-                      Text(
-                        "Login",
-                        style: TextStyle(
-                            color: TColor.black,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w700),
-                      )
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pushReplacementNamed(
+                            context,
+                            '/login'
+                          );
+                        },
+                        child: Text(
+                          "Login",
+                          style: TextStyle(
+                          color: TColor.black,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w700),
+                        )
+                      ),
                     ],
                   ),
-                ),
+                // ),
                 SizedBox(
                   height: media.width * 0.04,
                 ),
@@ -251,5 +235,30 @@ class _SignUpViewState extends State<SignUpView> {
         ),
       ),
     );
+  }
+}
+void register(usernameController, emailController, passwordController, context) async {
+  final dio = Dio();
+  final apiUrl = 'https://mobileapis.manpits.xyz/api';
+
+  try{
+    final response = await dio.post(
+      "$apiUrl/register", 
+      data: {
+        "name" : usernameController.text,
+        "email": emailController.text,
+        "password": passwordController.text
+      }
+    );
+    print (response.data);
+  
+    if (response.data['success'] == true) {
+      Navigator.pushNamed(
+        context,
+        '/login'
+      );
+    }
+  } on DioException catch (e) {
+    print(" Error ${e.response?.statusCode} - ${e.response?.data} ");
   }
 }

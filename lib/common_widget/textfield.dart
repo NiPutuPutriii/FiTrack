@@ -6,12 +6,12 @@ import '../common/color_extension.dart';
 class RoundTextField extends StatelessWidget {
   final TextEditingController? controller;
   final TextInputType? keyboardType;
-  final String hitText;
+  final String hintText;
   final String icon;
   final Widget? rigtIcon;
   final bool obscureText;
   final EdgeInsets? margin;
-  const RoundTextField({super.key, required this.hitText, required this.icon, this.controller, this.margin, this.keyboardType, this.obscureText = false , this.rigtIcon });
+  const RoundTextField({super.key, required this.hintText, required this.icon, this.controller, this.margin, this.keyboardType, this.obscureText = false , this.rigtIcon });
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +28,7 @@ class RoundTextField extends StatelessWidget {
                 const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
             enabledBorder: InputBorder.none,
             focusedBorder: InputBorder.none,
-            hintText: hitText,
+            hintText: hintText,
             suffixIcon: rigtIcon,
             prefixIcon: Container(
                 alignment: Alignment.center,
