@@ -13,7 +13,7 @@ class ProfileView extends StatefulWidget {
   State<ProfileView> createState()  => _ProfileViewState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> {
+class _ProfileViewState extends State<ProfileView> {
   final apiUrl = 'https://mobileapis.manpits.xyz/api';
   final dio = Dio();
   final storage = GetStorage();
@@ -82,14 +82,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       RoundTextField(
                         hintText: 'Name',
                         icon: 'assets/img/profile_tab.png',
-                        // controller: nameController,
+                        controller: nameController,
                       ),
                       RoundTextField(
                         hintText: 'Email',
                         icon: 'assets/img/email.png',
-                        // controller: emailController,
+                        controller: emailController,
                       ),
-                      SizedBox(height: 70),
+                      const SizedBox(height: 70),
                       RoundButton(
                         title: 'Log Out',
                         type: RoundButtonType.bgGradient,

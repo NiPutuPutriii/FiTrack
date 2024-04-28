@@ -1,8 +1,9 @@
 import 'package:fitnesstracker/common/color_extension.dart';
-import 'package:fitnesstracker/view/login/complete_profile_view.dart';
+import 'package:fitnesstracker/view/home/profile_view.dart';
 import 'package:fitnesstracker/view/login/login_view.dart';
 import 'package:fitnesstracker/view/login/signup_view.dart';
-import 'package:fitnesstracker/view/login/welcome_view.dart';
+// import 'package:fitnesstracker/view/login/welcome_view.dart';
+import 'package:fitnesstracker/view/main_tab/main_tab_view.dart';
 import 'package:fitnesstracker/view/started_app/started_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
@@ -47,9 +48,10 @@ class MyApp extends StatelessWidget {
        routes: {
         '/': (context) => StartedView(),
         '/login': (context) => LoginView(),
+        '/home': (context) => MainTabView(),
         '/register': (context) => SignUpView(),
-        '/dashboard': (context) => WelcomeView(),
-        '/profile': (context) => CompleteProfileView(),
+        // '/dashboard': (context) => WelcomeView(),
+        '/profile': (context) => ProfileView(),
       },
       initialRoute: '/',
       // home: const StartedView(),

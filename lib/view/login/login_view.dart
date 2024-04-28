@@ -203,7 +203,7 @@ class _LoginViewState extends State<LoginView> {
                           fontSize: 14,
                           fontWeight: FontWeight.w700),
                         )
-                      ),
+                      ),                   
                     ],
                   ),
                 ),
@@ -237,7 +237,7 @@ void login(emailController, passwordController, context) async {
     if (response.data['success'] == true) {
       Navigator.pushNamed(
         context,
-        '/profile'
+        '/home'
       );
     }
   } on DioException catch (e) {
