@@ -1,4 +1,6 @@
 import 'package:fitnesstracker/common/color_extension.dart';
+import 'package:fitnesstracker/view/home/add_anggota_view.dart';
+import 'package:fitnesstracker/view/home/blank_view.dart';
 import 'package:fitnesstracker/view/home/profile_view.dart';
 import 'package:fitnesstracker/view/login/login_view.dart';
 import 'package:fitnesstracker/view/login/signup_view.dart';
@@ -50,8 +52,11 @@ class MyApp extends StatelessWidget {
         '/login': (context) => LoginView(),
         '/home': (context) => MainTabView(),
         '/register': (context) => SignUpView(),
-        // '/dashboard': (context) => WelcomeView(),
         '/profile': (context) => ProfileView(),
+        '/listAnggota': (context) => BlankView(),        
+        '/mainTab': (context) => MainTabView(),
+        '/addAnggota': (context) => AddAnggotaView(),
+
       },
       initialRoute: '/',
       // home: const StartedView(),

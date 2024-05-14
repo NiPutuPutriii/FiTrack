@@ -71,8 +71,9 @@ class _MainTabViewState extends State<MainTabView> {
                 selectIcon: "assets/img/activity_tab_select.png",
                 isActive: selectTab == 1,
                 onTap: () {
-                  selectTab = 1;
-                  currentTab = const BlankView();
+                  Navigator.pushNamed(context, '/addAnggota');
+                  // selectTab = 1;
+                  // currentTab = const BlankView();
                   if (mounted) {
                     setState(() {});
                   }
@@ -84,6 +85,7 @@ class _MainTabViewState extends State<MainTabView> {
                 selectIcon: "assets/img/camera_tab_select.png",
                 isActive: selectTab == 2,
                 onTap: () {
+                  Navigator.pushNamed(context, '/listAnggota');
                   selectTab = 2;
                    currentTab = const BlankView();
                   if (mounted) {
