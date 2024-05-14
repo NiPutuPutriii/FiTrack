@@ -1,4 +1,4 @@
-# fitnesstracker
+# FiTrack
 
 A new Flutter project.
 
